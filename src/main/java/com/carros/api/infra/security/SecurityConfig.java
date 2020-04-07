@@ -1,4 +1,4 @@
-package com.carros.api.security;
+package com.carros.api.infra.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -9,17 +9,19 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(securedEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
-
+//
     @Autowired
     @Qualifier("userDetailsService")
     private UserDetailsService userDetailsService;
@@ -27,25 +29,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
-        // Removi segurança para subir o servidor.
         http
                 .authorizeRequests()
-                .anyRequest().permitAll()
+                .anyRequest().authenticated()
+                .and().httpBasic()
                 .and().csrf().disable();
-
-//        http
-//                .authorizeRequests()
-//                .anyRequest().authenticated()
-//                .and().httpBasic()
-//                .and().csrf().disable();
     }
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 
-        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-
-        auth.userDetailsService(userDetailsService).passwordEncoder(encoder);
+        auth.userDetailsService(userDetailsService).passwordEncoder(new BCryptPasswordEncoder());
 
 //        auth
 //            .inMemoryAuthentication().passwordEncoder(encoder)
@@ -53,5 +47,4 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //                .and()
 //                .withUser("admin").password(encoder.encode("admin")).roles("USER", "ADMIN");
     }
-
 }

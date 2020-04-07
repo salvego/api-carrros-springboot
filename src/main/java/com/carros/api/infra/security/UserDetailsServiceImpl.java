@@ -1,28 +1,30 @@
-package com.carros.api.security;
+package com.carros.api.infra.security;
 
-import com.carros.domain.User;
-import com.carros.domain.UserRepository;
+import com.carros.api.users.Role;
+import com.carros.api.users.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service(value = "userDetailsService")
 public class UserDetailsServiceImpl implements UserDetailsService {
-
     @Autowired
-    private UserRepository userRep;
+    private UserRepository userRepository;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        com.carros.api.users.User user = userRepository.findByLogin(username);
 
-        User user = userRep.findByLogin(username);
         if(user == null) {
-            throw new UsernameNotFoundException("user not found");
+            throw new UsernameNotFoundException("login not found");
         }
 
         return user;
-
     }
 }
