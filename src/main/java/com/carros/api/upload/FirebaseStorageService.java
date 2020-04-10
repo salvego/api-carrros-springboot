@@ -30,7 +30,7 @@ public class FirebaseStorageService {
             if(in != null) {
                 FirebaseOptions options = new FirebaseOptions.Builder()
                         .setCredentials(GoogleCredentials.fromStream(in))
-                        .setStorageBucket("carros-72c6a.appspot.com/")
+                        .setStorageBucket("carros-72c6a.appspot.com")
                         .setDatabaseUrl("https://carros-72c6a.firebaseio.com")
                         .build();
 
