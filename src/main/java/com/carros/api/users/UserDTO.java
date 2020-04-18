@@ -15,6 +15,7 @@ public class UserDTO {
     private String login;
     private String nome;
     private String email;
+    private String urlFoto;
 
     // token jwt
     private String token;
