@@ -20,6 +20,7 @@ public class User implements UserDetails {
     private String login;
     private String senha;
     private String email;
+    private String urlFoto;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_roles",
