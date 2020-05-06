@@ -8,6 +8,11 @@ public class CarroDTO {
     private Long id;
     private String nome;
     private String tipo;
+    private String descricao;
+    private String urlFoto;
+    private String urlVideo;
+    private String latitude;
+    private String longitude;
 
     /*public CarroDTO(Carro carro) {
         this.id = carro.getId();
